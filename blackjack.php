@@ -1,38 +1,12 @@
 <?php
-$json = file_get_contents("card-data/card-art.json");
-if ($json === false) {
-    die('Error reading the JSON file');
-}
+require_once 'Game/Card.php';
+require_once 'Game/Deck.php';
 
-$json_data = json_decode($json, true); 
+use Game\Card;
+use Game\Deck;
 
-if ($json_data === null) {
-    die('Error decoding the JSON file');
-}
+$deck = new Deck(8);
+$rand = random_int(0,count($deck->cards));
+$cards = [$deck->cards[0],$deck->cards[1],$deck->cards[2],$deck->cards[$rand]];
 
-class Card {
-    public $pip;
-    public $suit;
-    public function __construct($pip,$suit) {
-        $this->pip = $pip;
-        $this->suit = $suit;
-    }
-}
-$cards = [new Card("A","♠"), new Card("A","♥"), new Card("A","♣"), new Card("A","♦")];
-
-function draw_cards($cards,$json_data) {
-    for ($i = 0; $i < 6; $i++) {
-        foreach ($cards as $card) {
-            draw_card($card->pip,$card->suit,$i,$json_data);
-        }
-        echo "\n";
-    } 
-}
-
-function draw_card($pip,$suit,$index,$json_data) {
-    $card_art = $json_data[$pip];
-    $card_art = str_replace("S",$suit,$card_art[$index]);
-    echo $card_art . " ";
-}
-
-draw_cards($cards,$json_data);
+Card::draw_cards($cards);
