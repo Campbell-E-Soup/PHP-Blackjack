@@ -1,5 +1,5 @@
 <?php
-$json = file_get_contents("card-art.json");
+$json = file_get_contents("card-data/card-art.json");
 if ($json === false) {
     die('Error reading the JSON file');
 }
