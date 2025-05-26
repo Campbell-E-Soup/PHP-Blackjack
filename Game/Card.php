@@ -40,9 +40,14 @@ class Card {
 
     //functions
     public static function draw_card($pip,$suit,$index) {
-        $card_art = self::$json_data[$pip];
+        $card_art = self::$json_data["art"][$pip];
         $card_art = str_replace("S",$suit,$card_art[$index]);
-        return $card_art . " ";
+
+        if ($pip == "B") $suit = "B";
+
+        $color_ansi = self::$json_data["colors"][$suit];
+
+        return $color_ansi[0] . $card_art . " " . $color_ansi[1];
     }
 
     public static function draw_cards($cards) {
