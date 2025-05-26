@@ -8,5 +8,5 @@ use Game\Deck;
 $deck = new Deck(8);
 $rand = random_int(0,count($deck->cards));
 $cards = [$deck->cards[0],$deck->cards[1],$deck->cards[2],$deck->cards[$rand]];
-
+$cards[1]->face_up = false;
 Card::draw_cards($cards);

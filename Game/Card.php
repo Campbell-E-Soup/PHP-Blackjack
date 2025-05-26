@@ -10,9 +10,10 @@ class Card {
     private static $init = false;
     private static $json_data;
     //values
-    public $value;
-    public $pip;
-    public $suit;
+    public int $value;
+    public string $pip;
+    public string $suit;
+    public bool $face_up;
     /**
      * Summary of __construct
      * @param array $cardInfo
@@ -23,7 +24,9 @@ class Card {
         }
         $this->pip = $cardInfo[0];
         $this->suit = $cardInfo[1];
-        $this->value = $cardInfo[2];
+        $this->value = (int)$cardInfo[2];
+
+        $this->face_up = true;
     }
 
 
@@ -46,7 +49,9 @@ class Card {
         $drawn_cards = "";
         for ($i = 0; $i < 6; $i++) {
             foreach ($cards as $card) {
-                $drawn_cards = $drawn_cards . self::draw_card($card->pip,$card->suit,$i);
+                $pip = $card->pip;
+                if ($card->face_up === false) $pip = "B";
+                $drawn_cards = $drawn_cards . self::draw_card($pip,$card->suit,$i);
             }
             $drawn_cards = $drawn_cards . "\n";
         }
