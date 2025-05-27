@@ -21,6 +21,9 @@ class Input {
                     echo "\n\033[38;5;160mInvalid response, did not regonize '$response' please try again.\033[0m\n";
                 }
             }
+            else {
+                $valid = true;
+            }
         }
         return $response;
     }

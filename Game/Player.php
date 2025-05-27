@@ -38,9 +38,6 @@ class Player {
         $this->display_hand();
     }
 
-    public function stand() {
-
-    }
     /**
      * Summary of evaluateAce
      * @param Card $card
@@ -86,11 +83,11 @@ class Player {
         $finished = false;
         while (!$finished) {
             echo "What would you like to do?\n";
-            echo "Actions:\n";
-            echo "View a hand: enter a number between 1 and $max (You are $position). Dealer is \"D\"\n";
-            echo "Hit: \"hit\"";
-            echo "Hold: \"hold\"\n\n";
-            $valid_answers = ["hit","hold"];
+            echo "\033[1mActions:\033[0m\n";
+            echo "\033[1mView a hand:\033[0m enter a number between \033[1m\033[38;2;255;215;0m1\033[0m and \033[38;2;255;215;0m\033[1m$max\033[0m (You are \033[1m\033[38;2;255;215;0m$position\033[0m). Dealer is \033[1m\033[38;5;160m$max\033[0m\n";
+            echo "\033[1mHit:\033[0m \"\033[1m\033[38;2;255;215;0mhit\033[0m\" or \"\033[1m\033[38;2;255;215;0mh\033[0m\"\n";
+            echo "\033[1mStand:\033[0m \"\033[1m\033[38;2;255;215;0mstand\033[0m\" or \"\033[1m\033[38;2;255;215;0ms\033[0m\"\n\n";
+            $valid_answers = ["hit","stand","h","s"];
             for ($i = 0; $i <= $max; $i++) {
                 array_push($valid_answers,"$i");
             }
@@ -100,12 +97,24 @@ class Player {
             if (is_numeric($response)) {
                 $players[((int)$response)-1]->display_hand();
             }
-            else if ($response == "hit") {
+            else if ($response == "hit" || $response == "h") {
                 $this->hit($deck);
             } else {
                 $finished = true;
             }
-            
+            if ($this->total > 21) {
+                //you lose!!
+                echo "\033[38;5;160mYou lose!\nYou went over 21!\033[0m\n";
+                $finished = true;
+                sleep(3);
+            }
+        }
+    }
+
+    public function reveal_cards() {
+        //turn all cards face up
+        foreach ($this->hand as $card) {
+            $card->face_up = true;
         }
     }
 }

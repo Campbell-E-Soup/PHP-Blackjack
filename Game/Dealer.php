@@ -46,7 +46,7 @@ class Dealer extends Player {
      * @param Player[] $players
      * @return void
      */
-    public static function deal($deck,$players) : void {
+    public static function deal($deck,$players) : bool {
         for ($i = 0; $i < 2; $i++) {
             foreach ($players as $player) {
                 //echo "\033[2J\033[H";
@@ -55,6 +55,10 @@ class Dealer extends Player {
                 sleep(seconds: 3);
             }
         }
+        if ($players[count($players)-1]->total == 21) {
+            return true;
+        }
+        return false;
     }
 
     public function display_hand() {
@@ -62,5 +66,90 @@ class Dealer extends Player {
         $this->count_values();
         echo $this->name . "\n";
         Card::display_cards($this->hand);
+    }
+
+    /**
+     * Summary of take_turn
+     * @param Player[] $players
+     * @param int $position
+     * @return void
+     */
+    public function take_turn($players,$position,$deck) {
+        while ($this->total < 17) {
+            $this->hit($deck);
+            $this->display_hand();
+            echo "The dealer hits.\n";
+            $color = "\033[38;2;255;215;0m";
+            if ($this->total > 21) {
+                $color = "\033[38;5;160m";
+            }
+            echo "Total:$color $this->total" . "\033[0m" . "\n\n";
+            sleep(3);
+        }
+        //check if soft 17
+        if ($this->total == 17) {
+            $ace = false;
+            foreach ($this->hand as $card) 
+            {
+                if ($card->value == 11) {
+                    $ace = true;
+                    break;
+                }
+            }
+            if ($ace) {
+                $this->hit($deck);
+                $this->display_hand();
+                echo "The dealer hits on a soft 17.\n";
+                $color = "\033[38;2;255;215;0m";
+                if ($this->total > 21) {
+                    $color = "\033[38;5;160m";
+                }
+                echo "Total:$color $this->total" . "\033[0m" . "\n\n";
+                sleep(3);
+            }
+        }
+        //resolve game
+        $max = count($players)-1;
+        for ($i = 0; $i < $max; $i++) {
+            $player = $players[$i];
+            $value = $player->total;
+            if (($value <= 21) && ($this->total > 21 || $value > $this->total)) {
+                if ($player->name == "Your hand:") {
+                    //this is the player display it as such
+                    echo "\033[38;2;255;215;0m\033[1mYou win with a total of $value! \n\033[0m";
+                }
+                else {
+                    echo "\033[38;2;255;215;0m\033[1mPlayer $i wins with a total of $value! \n\033[0m";
+                }
+            }
+            else {
+                if ($player->name == "Your hand:") {
+                    //this is the player display it as such
+                    echo "\033[38;5;160m\033[1mYou lose with a total of $value!\n";
+                    if ($value == $this->total) {
+                        echo "The house always wins!";
+                    }
+                    echo "\033[0m";
+                }
+                else {
+                    echo "\033[38;5;160m\033[1mPlayer $i loses with a total of $value!\n";
+                }
+            }
+        }
+    }
+
+    public function reveal_cards() {
+        //turn all cards face up
+        foreach ($this->hand as $card) {
+            $card->face_up = true;
+        }
+        $this->display_hand();
+        echo "The dealer reveals their hand.\n";
+        $color = "\033[38;2;255;215;0m";
+        if ($this->total > 21) {
+            $color = "\033[38;5;160m";
+        }
+        echo "Total:$color $this->total" . "\033[0m" . "\n\n";
+        sleep(3);
     }
 }

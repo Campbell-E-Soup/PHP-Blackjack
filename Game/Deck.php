@@ -20,6 +20,7 @@ class Deck {
                 $this->cards[] = new Card($arr);
             }
         }
+        $this->shuffle();
     }
 
     //shuffle
@@ -46,7 +47,14 @@ class Deck {
         $card->face_up = $face_up;
         array_push($hand,$card);
         array_push($this->discard,$card);
-
+        $deck_count = (float)count($this->cards);
+        $discard_count = (float)count($this->discard);
+        //emergency reshuffle
+        if ($discard_count / ($discard_count + $deck_count) >= 0.92) {
+            array_push($this->cards,$this->discard);
+            $this->discard = [];
+            $this->shuffle();
+        }
         return $card;
     }
 }

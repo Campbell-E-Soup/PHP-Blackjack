@@ -1,2 +1,2 @@
 # PHP-Blackjack
-Blackjack made in PHP, card ascii art 
+Blackjack made in PHP, with card ascii art 
