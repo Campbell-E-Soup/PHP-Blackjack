@@ -1,12 +1,15 @@
 <?php
 require_once 'Game/Card.php';
 require_once 'Game/Deck.php';
+require_once 'Game/Player.php';
 
+use Game\Player;
 use Game\Card;
 use Game\Deck;
 
 $deck = new Deck(8);
 $rand = random_int(0,count($deck->cards));
-$cards = [$deck->cards[0],$deck->cards[1],$deck->cards[2],$deck->cards[3]];
-
-Card::draw_cards($cards);
+//$deck->shuffle();
+$players = [new Player()]; 
+$players[0]->hit($deck);
+Card::display_cards($players[0]->hand);

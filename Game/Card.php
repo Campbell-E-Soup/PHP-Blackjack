@@ -39,7 +39,7 @@ class Card {
     }
 
     //functions
-    public static function draw_card($pip,$suit,$index) {
+    public static function display_card($pip,$suit,$index) {
         $card_art = self::$json_data["art"][$pip];
         $card_art = str_replace("S",$suit,$card_art[$index]);
 
@@ -49,17 +49,22 @@ class Card {
 
         return $color_ansi[0] . $card_art . " " . $color_ansi[1];
     }
-
-    public static function draw_cards($cards) {
+    /**
+     * Summary of display_cards
+     * @param Card[] $cards
+     * @return void
+     */
+    public static function display_cards($cards) {
+        echo "\n";
         $drawn_cards = "";
         for ($i = 0; $i < 6; $i++) {
             foreach ($cards as $card) {
                 $pip = $card->pip;
                 if ($card->face_up === false) $pip = "B";
-                $drawn_cards = $drawn_cards . self::draw_card($pip,$card->suit,$i);
+                $drawn_cards = $drawn_cards . self::display_card($pip,$card->suit,$i);
             }
             $drawn_cards = $drawn_cards . "\n";
         }
-        echo $drawn_cards;
+        echo $drawn_cards . "\n";
     }
 }
