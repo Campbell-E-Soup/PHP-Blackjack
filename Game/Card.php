@@ -55,7 +55,7 @@ class Card {
      * @return void
      */
     public static function display_cards($cards) {
-        echo "\n";
+        //echo "\n";
         $drawn_cards = "";
         for ($i = 0; $i < 6; $i++) {
             foreach ($cards as $card) {

@@ -29,7 +29,7 @@ class Player {
         array_push($this->hand,$card);
     }
 
-    public function hold() {
+    public function stand() {
 
     }
     /**
@@ -37,7 +37,7 @@ class Player {
      * @param Card $card
      * @return Card
      */
-    public function evaluateAce($card): Card {
+    private function evaluateAce($card): Card {
         if ($this->total + 11 > 21) return $card; //1 is best for the ace so just return an ace with 1 (the default)
         $response = null;
         while ($response == null) {
