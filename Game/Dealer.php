@@ -108,9 +108,18 @@ class Dealer extends Player {
                 sleep(3);
             }
         }
+            $this->display_hand();
+            echo "The dealer stands.\n";
+            $color = "\033[38;2;255;215;0m";
+            if ($this->total > 21) {
+                $color = "\033[38;5;160m";
+            }
+            echo "Total:$color $this->total" . "\033[0m" . "\n\n";
+            sleep(2);
         //resolve game
         $max = count($players)-1;
         for ($i = 0; $i < $max; $i++) {
+            $x = $i + 1;
             $player = $players[$i];
             $value = $player->total;
             if (($value <= 21) && ($this->total > 21 || $value > $this->total)) {
@@ -119,7 +128,7 @@ class Dealer extends Player {
                     echo "\033[38;2;255;215;0m\033[1mYou win with a total of $value! \n\033[0m";
                 }
                 else {
-                    echo "\033[38;2;255;215;0m\033[1mPlayer $i wins with a total of $value! \n\033[0m";
+                    echo "\033[38;2;255;215;0m\033[1mPlayer $x wins with a total of $value! \n\033[0m";
                 }
             }
             else {
@@ -127,12 +136,12 @@ class Dealer extends Player {
                     //this is the player display it as such
                     echo "\033[38;5;160m\033[1mYou lose with a total of $value!\n";
                     if ($value == $this->total) {
-                        echo "The house always wins!";
+                        echo "The house always wins!\n";
                     }
                     echo "\033[0m";
                 }
                 else {
-                    echo "\033[38;5;160m\033[1mPlayer $i loses with a total of $value!\n";
+                    echo "\033[38;5;160m\033[1mPlayer $x loses with a total of $value!\n";
                 }
             }
         }
