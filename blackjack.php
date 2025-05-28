@@ -22,7 +22,7 @@ function game_loop($deck) {
     $deck_count = (float)count($deck->cards);
     $discard_count = (float)count($deck->discard);
     if ($discard_count / ($discard_count + $deck_count) >= 0.75) {
-        array_push($deck->cards,$deck->discard);
+        $deck->cards = array_merge($deck->cards, $deck->discard);
         $deck->discard = [];
         $deck->shuffle();
     }

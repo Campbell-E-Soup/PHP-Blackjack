@@ -51,7 +51,7 @@ class Deck {
         $discard_count = (float)count($this->discard);
         //emergency reshuffle
         if ($discard_count / ($discard_count + $deck_count) >= 0.92) {
-            array_push($this->cards,$this->discard);
+            $this->cards = array_merge($this->cards, $this->discard);
             $this->discard = [];
             $this->shuffle();
         }
