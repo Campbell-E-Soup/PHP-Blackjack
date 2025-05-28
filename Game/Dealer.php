@@ -22,7 +22,7 @@ class Dealer extends Player {
      */
     public function hit($deck){
         $face_up = true;
-        if (count($this->hand) == 1) { //second one is facedown
+        if (count($this->hand) == 0) { //first one is facedown
             $face_up = false;
         }
         $card = $deck->draw($this->hand,$face_up);
