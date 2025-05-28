@@ -29,7 +29,7 @@ function game_loop($deck) {
 
     $player_count = 6; //n additional players
     
-    $response = Input::get_input("How many players do you want to play with (0-6).\n",["1","2","3","4","5","6","0"]);
+    $response = Input::get_input("How many players do you want to play with (\033[38;5;220m0-6\033[0m)? ",["1","2","3","4","5","6","0"]);
     $player_count = (int)$response;
 
     $players = [new Player()];
@@ -69,7 +69,8 @@ echo "\033[38;5;27mPHP ";
 sleep(1);
 echo "\033[38;5;220mBLACKJACK\n\033[0m";
 sleep(2);
-$deck = new Deck(8);
+$response = Input::get_input("How many decks will you be playing with (\033[38;5;220m1-8\033[0m)? ",["1","2","3","4","5","6","7","8"]);
+$deck = new Deck((int)$response);
 $end = false;
 while (!$end) {
     game_loop($deck);

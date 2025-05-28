@@ -18,7 +18,7 @@ class Input {
                     $valid = true;
                 }
                 else {
-                    echo "\n\033[38;5;160mInvalid response, did not regonize '$response' please try again.\033[0m\n";
+                    echo "\033[38;5;160mInvalid response, did not recogonize '$response' please try again.\033[0m\n";
                 }
             }
             else {
