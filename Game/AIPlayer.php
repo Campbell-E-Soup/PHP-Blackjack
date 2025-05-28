@@ -82,7 +82,7 @@ class AIPlayer extends Player {
                 }
             }
         }
-        if (!$lost) {
+        if (!$lost || $this->total <= 21) {
             $this->display_hand();
             echo "Player $this->id stands.\n";
         }
